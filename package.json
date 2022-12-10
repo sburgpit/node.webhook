@@ -1,0 +1,23 @@
+{
+  "name": "node.webhook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sburgpit/node.webhook.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sburgpit/node.webhook/issues"
+  },
+  "homepage": "https://github.com/sburgpit/node.webhook#readme",
+  "dependencies": {
+    "moment": "^2.29.4",
+    "node-telegram-bot-api": "^0.60.0"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "telegram": {
+    "token": "TOKEN",
+    "chatList": [1000000000]
+  },
+  "git": {
+    "REPO1": {
+      "secret": "SECRET1",
+      "branchList": [{ "name": "main", "dir": "/your/path", "exec": ["git pull", "npm install", "npm run build"] }]
+    },
+    "REPO2": {
+      "secret": "SECRET2",
+      "branchList": [{ "name": "dev", "dir": "/your/path", "exec": ["git pull", "npm install", "npm run build"] }]
+    }
+  }
+}
