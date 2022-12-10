@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +20,8 @@
   "dependencies": {
     "moment": "^2.29.4",
     "node-telegram-bot-api": "^0.60.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }

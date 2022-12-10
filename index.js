@@ -19,25 +19,24 @@ const run = (child) =>
     })
   })
 
-const sendTgMessage = (status, error) => {
-  const icon = status === 'error' ? '❌' : '✅'
-  const msg = `${icon} ${moment(new Date()).format('MMMM D, h:mm:ss a')}\n\n<b>Repository:</b>\n${
-    body?.repository.name
-  }\n\n<b>Branch:</b>\n${body?.ref}\n\n<b>Commit:</b>\n<a href="${body?.head_commit.url}">${
-    body?.head_commit.url
-  }</a>\n\n<b>Pusher:</b>\n${body?.pusher.name}\n\n${status === 'error' ? `<b>Error:</b>\n${error}` : ''}`
+let body
 
-  chatList.map((id) =>
-    bot.sendMessage(id, msg, {
-      parse_mode: 'HTML',
-    })
-  )
+const sendTgMsg = (msg) => {
+  chatList.map((id) => bot.sendMessage(id, msg, {
+    parse_mode: 'Markdown'
+  }))
 }
 
-let body
+const sendTgResultMsg = (status, error) => {
+  const icon = status === 'error' ? '❌' : '✅'
+  const msg = `${icon} ${moment(new Date()).format('MMMM D, h:mm:ss a')}\n\n**Repository:**\n\`${body?.repository.name}\`\n\n**Branch:**\n\`${body?.ref}\`\n\n**Commit:**\n[${body?.head_commit.url}](${body?.head_commit.url})\n\n**Pusher:**\n${body?.pusher.name}]\n\n${status === 'error' ? `**Error:**\n\`${error}\`` : ''}`
+
+  sendTgMsg(msg)
+}
 
 const server = http.createServer((req, res) => {
   req.on('data', (chunk) => {
+    sendTgMsg('✅ Connection')
     body = JSON.parse(chunk)
     const repoName = body?.repository.name
 
@@ -53,8 +52,8 @@ const server = http.createServer((req, res) => {
     if (!isAllowed) return
 
     run(`cd ${branch.dir} && ${branch.exec.join(' && ')}`)
-      .then(() => sendTgMessage('success'))
-      .catch((e) => sendTgMessage('error', e))
+      .then(() => sendTgResultMsg('success'))
+      .catch((e) => sendTgResultMsg('error', e))
   })
 
   res.end()
