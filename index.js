@@ -70,12 +70,12 @@ const sendTgResultMsg = (status, error) => {
   sendTgMsg(msg)
 }
 
-const run = (child, dir) =>
+const run = (command, dir) =>
   new Promise((resolve, reject) => {
-    exec(child, { cwd: dir }, (error, stdout, stderr) => {
+    exec(command, { cwd: dir }, (error, stdout, stderr) => {
       if (error) return reject(error)
-      if (stderr) return reject(stderr)
-      resolve(stdout)
+      if (stderr && !stdout) return reject(stderr)
+      resolve(stdout || stderr)
     })
   })
 
