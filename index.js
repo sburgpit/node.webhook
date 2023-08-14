@@ -45,7 +45,7 @@ const sendTgResultMsg = (status, error) => {
     body.repository.name
   }\`\n\n**Branch:**\n\`${body.ref}\`\n\n**Commit:**\n[${body.head_commit.url}](${
     body.head_commit.url
-  })\n\n**Pusher:**\n${body.pusher.name}]\n\n${status === 'error' ? `**Error:**\n\`${error}\`` : ''}`
+  })\n\n**Pusher:**\n${body.pusher.name}\n\n${status === 'error' ? `**Error:**\n\`${error}\`` : ''}`
 
   sendTgMsg(msg)
 }
@@ -60,4 +60,3 @@ const run = (child) =>
   })
 
 server.listen(process.env.PORT, () => console.log(`Server started on port ${process.env.PORT}`))
-sendTgMsg('✅ Webhook Notifier Connected')
