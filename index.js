@@ -27,9 +27,7 @@ const server = http.createServer((req, res) => {
       if (req.headers['x-hub-signature'] !== signature) return
 
       try {
-        const commands = [`cd ${action.dir}`, ...action.commands]
-
-        for (const command of commands) {
+        for (const command of action.commands) {
           const commandWithDir = command.replace(`{dir}`, action.dir)
           try {
             await run(commandWithDir)
