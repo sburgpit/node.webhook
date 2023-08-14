@@ -31,7 +31,7 @@ const server = http.createServer((req, res) => {
 
         for (const command of commands) {
           await run(command)
-          sendTgResultMsg(`[${command}] passed`)
+          sendTgMsg(`[${command}] passed`)
         }
 
         sendTgResultMsg('success')
