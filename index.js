@@ -32,9 +32,9 @@ const server = http.createServer((req, res) => {
         for (const command of commands) {
           try {
             await run(command)
-            sendTgMsg(`\`${command}\` passed`)
+            await sendTgMsg(`\`${command}\` passed`)
           } catch (e) {
-            sendTgMsg(`\`${command}\` error`)
+            await sendTgMsg(`\`${command}\` error`)
             throw e
           }
         }
@@ -52,8 +52,9 @@ const server = http.createServer((req, res) => {
   }
 })
 
-const sendTgMsg = (msg) => {
-  for (const chatID of process.env.TG_CHAT_IDS.split(',')) tgClient.sendMessage(chatID, msg, { parse_mode: 'Markdown' })
+const sendTgMsg = async (msg) => {
+  for (const chatID of process.env.TG_CHAT_IDS.split(','))
+    await tgClient.sendMessage(chatID, msg, { parse_mode: 'Markdown' })
 }
 
 const sendTgResultMsg = (status, error) => {
