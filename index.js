@@ -30,8 +30,8 @@ const server = http.createServer((req, res) => {
         const commands = [`cd ${action.dir}`, ...action.commands]
 
         for (const command of commands) {
-          await run(command)
-          sendTgMsg(`[${command}] passed`)
+          await run(command).catch((e) => sendTgMsg(`\`${command}\` error`))
+          sendTgMsg(`\`${command}\` passed`)
         }
 
         sendTgResultMsg('success')
