@@ -30,11 +30,12 @@ const server = http.createServer((req, res) => {
         const commands = [`cd ${action.dir}`, ...action.commands]
 
         for (const command of commands) {
+          const commandWithDir = command.replace(`{dir}`, action.dir)
           try {
-            await run(command)
-            await sendTgMsg(`\`${command}\` passed`)
+            await run(commandWithDir)
+            await sendTgMsg(`\`${commandWithDir}\` passed`)
           } catch (e) {
-            await sendTgMsg(`\`${command}\` error`)
+            await sendTgMsg(`\`${commandWithDir}\` error`)
             throw e
           }
         }
