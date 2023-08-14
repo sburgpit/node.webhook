@@ -10,29 +10,41 @@ const tgClient = new TG(process.env.TG_BOT_TOKEN)
 let body
 
 const server = http.createServer((req, res) => {
-  sendTgMsg('✅ Webhook Notifier Connected')
+  try {
+    req.on('data', async (chunk) => {
+      sendTgMsg('✅ Connection')
 
-  req.on('data', (chunk) => {
-    sendTgMsg('✅ Connection')
+      body = JSON.parse(chunk)
+      if (!body) return
 
-    body = JSON.parse(chunk)
-    if (!body) return
+      const repo = repos.find((repo) => repo.ghRepo === body.repository.name)
+      if (!repo) return
 
-    const repo = repos.find((repo) => repo.ghRepo === body.repository.name)
-    if (!repo) return
+      const action = repo.actions.find((action) => `refs/heads/${action.branch}` === body?.ref)
+      if (!action) return
 
-    const action = repo.actions.find((action) => `refs/heads/${action.branch}` === body?.ref)
-    if (!action) return
+      const signature = `sha1=${crypto.createHmac('sha1', repo.ghSecret).update(chunk).digest('hex')}`
+      if (req.headers['x-hub-signature'] !== signature) return
 
-    const signature = `sha1=${crypto.createHmac('sha1', repo.ghSecret).update(chunk).digest('hex')}`
-    if (req.headers['x-hub-signature'] !== signature) return
+      try {
+        const commands = [`cd ${action.dir}`, ...action.commands]
 
-    run(`cd ${action.dir} && ${action.commands.join(' && ')}`)
-      .then(() => sendTgResultMsg('success'))
-      .catch((e) => sendTgResultMsg('error', e))
-  })
+        for (const command of commands) {
+          await run(command)
+          sendTgResultMsg(`[${command}] passed`)
+        }
 
-  res.end()
+        sendTgResultMsg('success')
+      } catch (e) {
+        sendTgResultMsg('error', e)
+        console.error(e)
+      }
+    })
+
+    res.end()
+  } catch (e) {
+    console.error(e)
+  }
 })
 
 const sendTgMsg = (msg) => {
