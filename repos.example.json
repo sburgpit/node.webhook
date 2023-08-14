@@ -1,0 +1,7 @@
+[
+  {
+    "ghRepo": "repoName",
+    "ghSecret": "secret",
+    "actions": [{ "branch": "main", "dir": "/your/path", "commands": ["git pull", "npm install", "npm run build"] }]
+  }
+]

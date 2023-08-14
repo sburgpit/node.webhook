@@ -18,10 +18,11 @@
   },
   "homepage": "https://github.com/sburgpit/node.webhook#readme",
   "dependencies": {
+    "dotenv": "^16.3.1",
     "moment": "^2.29.4",
-    "node-telegram-bot-api": "^0.60.0"
+    "node-telegram-bot-api": "^0.61.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "nodemon": "^3.0.1"
   }
 }
