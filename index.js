@@ -1,5 +1,6 @@
 require('dotenv').config()
 const http = require('http')
+const path = require('path')
 const crypto = require('crypto')
 const { exec } = require('child_process')
 const TG = require('node-telegram-bot-api')
@@ -27,13 +28,15 @@ const server = http.createServer((req, res) => {
       if (req.headers['x-hub-signature'] !== signature) return
 
       try {
-        for (const command of action.commands) {
-          const commandWithDir = command.replace(`{dir}`, action.dir)
+        for (const commandObj of action.commands) {
+          const command = typeof commandObj === 'string' ? commandObj : commandObj.command
+          const dir = typeof commandObj === 'string' ? action.dir : path.join(action.dir, commandObj.subDir)
+
           try {
-            await run(commandWithDir)
-            await sendTgMsg(`\`${commandWithDir}\` passed`)
+            await run(command, dir)
+            await sendTgMsg(`\`${command}\` passed in ${dir}`)
           } catch (e) {
-            await sendTgMsg(`\`${commandWithDir}\` error`)
+            await sendTgMsg(`\`${command}\` error in ${dir}`)
             throw e
           }
         }
@@ -67,9 +70,9 @@ const sendTgResultMsg = (status, error) => {
   sendTgMsg(msg)
 }
 
-const run = (child) =>
+const run = (child, dir) =>
   new Promise((resolve, reject) => {
-    exec(child, (error, stdout, stderr) => {
+    exec(child, { cwd: dir }, (error, stdout, stderr) => {
       if (error) return reject(error)
       if (stderr) return reject(stderr)
       resolve(stdout)
