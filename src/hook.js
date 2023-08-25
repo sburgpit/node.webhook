@@ -16,7 +16,7 @@ const messages = {
   success: `✅ Completed successfully`,
 }
 
-const hook = async (chunk) => {
+const hook = (req) => async (chunk) => {
   const { message_id } = await telegram.sendMessage(messages.request)
   messagesChain.push(messages.request)
 

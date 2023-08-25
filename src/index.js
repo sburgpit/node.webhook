@@ -4,7 +4,7 @@ const hook = require('./hook')
 const telegram = require('./telegram')
 
 const server = http.createServer((req, res) => {
-  req.on('data', hook)
+  req.on('data', hook(req))
   res.end()
 })
 
