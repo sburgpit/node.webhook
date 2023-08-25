@@ -1,3 +1,5 @@
+const { exec } = require('child_process')
+
 const runCommand = (command, dir) =>
   new Promise((resolve, reject) => {
     exec(command, { cwd: dir }, (error, stdout, stderr) => {
