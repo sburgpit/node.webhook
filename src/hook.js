@@ -11,9 +11,9 @@ const messages = {
   noRepo: (repo) => `❌ There is no \`${repo}\` repository in the config`,
   noActions: (branch) => `❌ There is no actions for \`${branch}\` branch`,
   signature: `❌ Invalid signature`,
-  commandPassed: (command, dir) => `✅ \`${command}\` passed in \`${dir}\``,
-  commandFailed: (command, dir) => `❌ \`${command}\` failed in \`${dir}\``,
-  error: (error) => `❌ Error:\n\`${error}\``,
+  commandPassed: (command, dir) => `✅ \`${command}\` passed in \`${dir}\` `,
+  commandFailed: (command, dir) => `❌ \`${command}\` failed in \`${dir}\` `,
+  error: (error) => `❌ Error:\n\`${error}\` `,
   success: `✅ Completed successfully`,
 }
 
