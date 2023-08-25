@@ -1,4 +1,5 @@
 const crypto = require('crypto')
+const path = require('path')
 const telegram = require('./telegram')
 const runCommand = require('./runCommand')
 const repos = require('../repos.json')
