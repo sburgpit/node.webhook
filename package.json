@@ -2,10 +2,10 @@
   "name": "node.webhook",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,6 @@
   "homepage": "https://github.com/sburgpit/node.webhook#readme",
   "dependencies": {
     "dotenv": "^16.3.1",
-    "moment": "^2.29.4",
     "node-telegram-bot-api": "^0.61.0"
   },
   "devDependencies": {
