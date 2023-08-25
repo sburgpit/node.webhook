@@ -21,19 +21,19 @@ const hook = (req) => async (chunk) => {
   messagesChain.push(messages.request)
 
   const body = JSON.parse(chunk)
-  if (!body) return telegram.editMessage(`${messagesChain.join('\n')}${messages.noBody}`, message_id)
+  if (!body) return telegram.editMessage(`${messagesChain.join('\n ')}${messages.noBody}`, message_id)
 
   const repo = repos.find((repo) => repo.ghRepo === body.repository.name)
   if (!repo)
-    return telegram.editMessage(`${messagesChain.join('\n')}${messages.noRepo(body.repository.name)}`, message_id)
+    return telegram.editMessage(`${messagesChain.join('\n ')}${messages.noRepo(body.repository.name)}`, message_id)
 
   const branchName = body.ref.split('refs/heads/')[1]
   const action = repo.actions.find((action) => action.branch === branchName)
-  if (!action) return telegram.editMessage(`${messagesChain.join('\n')}${messages.noActions(branchName)}`, message_id)
+  if (!action) return telegram.editMessage(`${messagesChain.join('\n ')}${messages.noActions(branchName)}`, message_id)
 
   const signature = `sha1=${crypto.createHmac('sha1', repo.ghSecret).update(chunk).digest('hex')}`
   if (req.headers['x-hub-signature'] !== signature)
-    return telegram.editMessage(`${messagesChain.join('\n')}${messages.signature}`, message_id)
+    return telegram.editMessage(`${messagesChain.join('\n ')}${messages.signature}`, message_id)
 
   try {
     for (const commandObj of action.commands) {
@@ -43,11 +43,11 @@ const hook = (req) => async (chunk) => {
       try {
         await runCommand(command, dir)
         const message = messages.commandPassed(command, dir)
-        await telegram.editMessage(`${messagesChain.join('\n')}${message}`, message_id)
+        await telegram.editMessage(`${messagesChain.join('\n ')}${message}`, message_id)
         messagesChain.push(message)
       } catch (e) {
         const message = messages.commandFailed(command, dir)
-        await telegram.editMessage(`${messagesChain.join('\n')}${message}`, message_id)
+        await telegram.editMessage(`${messagesChain.join('\n ')}${message}`, message_id)
         messagesChain.push(message)
 
         throw e
