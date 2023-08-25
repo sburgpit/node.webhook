@@ -6,15 +6,15 @@ const repos = require('../repos.json')
 
 const messagesChain = []
 const messages = {
-  request: '✅ Got a request',
-  noBody: '❌ No body',
-  noRepo: (repo) => `❌ There is no \`${repo}\` repository in the config`,
-  noActions: (branch) => `❌ There is no actions for \`${branch}\` branch`,
-  signature: `❌ Invalid signature`,
-  commandPassed: (command, dir) => `✅ \`${command}\` passed in \`${dir}\` `,
-  commandFailed: (command, dir) => `❌ \`${command}\` failed in \`${dir}\` `,
-  error: (error) => `❌ Error:\n\`${error}\` `,
-  success: `✅ Completed successfully`,
+  request: '✅ Got a request\n',
+  noBody: '❌ No body\n',
+  noRepo: (repo) => `❌ There is no \`${repo}\` repository in the config\n`,
+  noActions: (branch) => `❌ There is no actions for \`${branch}\` branch\n`,
+  signature: `❌ Invalid signature\n`,
+  commandPassed: (command, dir) => `✅ \`${command}\` passed in \`${dir}\`\n`,
+  commandFailed: (command, dir) => `❌ \`${command}\` failed in \`${dir}\`\n`,
+  error: (error) => `❌ Error:\n\`${error}\`\n`,
+  success: `✅ Completed successfully\n`,
 }
 
 const hook = (req) => async (chunk) => {
